@@ -1,6 +1,6 @@
 {
   "name": "wavesurfer.js",
-  "version": "7.9.4",
+  "version": "7.9.4-verticalpatch",
   "license": "BSD-3-Clause",
   "author": "katspaugh",
   "description": "Audio waveform player",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:katspaugh/wavesurfer.js.git"
+    "url": "https://github.com/tkkpv/wavesurfer.js-vertical"
   },
   "type": "module",
   "files": [
