@@ -143,7 +143,7 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
       width: '6px',
       height: '100%',
       top: '0',
-      cursor: 'ew-resize',
+      cursor: 'ns-resize',
       wordBreak: 'keep-all',
     }
 
@@ -180,14 +180,14 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
     this.subscriptions.push(
       makeDraggable(
         leftHandle,
-        (dx) => this.onResize(dx, 'start'),
+        (dx, dy) => this.onResize(dy, 'start'),
         () => null,
         () => this.onEndResizing(),
         resizeThreshold,
       ),
       makeDraggable(
         rightHandle,
-        (dx) => this.onResize(dx, 'end'),
+        (dx, dy) => this.onResize(dy, 'end'),
         () => null,
         () => this.onEndResizing(),
         resizeThreshold,
@@ -267,7 +267,7 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
     this.subscriptions.push(
       makeDraggable(
         element,
-        (dx) => this.onMove(dx),
+        (dx, dy) => this.onMove(dy),
         () => this.toggleCursor(true),
         () => {
           this.toggleCursor(false)
@@ -282,10 +282,10 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
     }
   }
 
-  public _onUpdate(dx: number, side?: 'start' | 'end') {
+  public _onUpdate(dy: number, side?: 'start' | 'end') {
     if (!this.element.parentElement) return
-    const { width } = this.element.parentElement.getBoundingClientRect()
-    const deltaSeconds = (dx / width) * this.totalDuration
+    const { height } = this.element.parentElement.getBoundingClientRect()
+    const deltaSeconds = (dy / height) * this.totalDuration
     const newStart = !side || side === 'start' ? this.start + deltaSeconds : this.start
     const newEnd = !side || side === 'end' ? this.end + deltaSeconds : this.end
     const length = newEnd - newStart
@@ -305,16 +305,16 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
     }
   }
 
-  private onMove(dx: number) {
+  private onMove(dy: number) {
     if (!this.drag) return
-    this._onUpdate(dx)
+    this._onUpdate(dy)
   }
 
-  private onResize(dx: number, side: 'start' | 'end') {
+  private onResize(dy: number, side: 'start' | 'end') {
     if (!this.resize) return
     if (!this.resizeStart && side === 'start') return
     if (!this.resizeEnd && side === 'end') return
-    this._onUpdate(dx, side)
+    this._onUpdate(dy, side)
   }
 
   private onEndResizing() {
@@ -356,7 +356,7 @@ class SingleRegion extends EventEmitter<RegionEvents> implements Region {
 
   /** Set the HTML content of the region */
   public setContent(content: RegionParams['content']) {
-  
+
     this.content?.remove()
     if (!content) {
       this.content = undefined
@@ -619,7 +619,7 @@ class RegionsPlugin extends BasePlugin<RegionsPluginEvents, RegionsPluginOptions
       region.on('content-changed', () => {
         this.emit('region-content-changed', region)
       }),
-     
+
       // Remove the region from the list when it's removed
       region.once('remove', () => {
         regionSubscriptions.forEach((unsubscribe) => unsubscribe())
