@@ -13,14 +13,33 @@ const ws = WaveSurfer.create({
   progressColor: 'rgb(100, 0, 100)',
   url: '/examples/audio/audio.wav',
   plugins: [regions],
+  interact: false,
 })
 
 // Give regions a random color when they are created
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
 
+ws.on('ready', () => {
+  var v = document.getElementById('v-container');
+  var w = document.getElementById('w-container');
+
+  if (!v || !w) {
+    console.warn('Container nicht gefunden');
+    return;
+  }
+
+  // offsetHeight = Content + Padding + Border integer
+  var height = v.offsetHeight;
+
+  w.style.width = height + 'px';
+});
+
 // Create some regions at specific time ranges
 ws.on('decode', () => {
+  // console.log('v-container count:', $('#v-container').length);
+  // console.log('height:', $('#v-container').height());
+  // console.log('w-container count:', $('#w-container').length);
   // Regions
   regions.addRegion({
     start: 0,
@@ -67,6 +86,7 @@ regions.on('region-updated', (region) => {
   console.log('Updated region', region)
 })
 
+
 // Loop a region on click
 let loop = true
 // Toggle looping with a checkbox
@@ -112,8 +132,24 @@ ws.once('decode', () => {
 
 /*
   <html>
+    <style>
+        #v-container{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+        }
+        #waveform{
+            transform: translateX(100%) rotate(90deg);
+            transform-origin: top left;
+        }
+    </style>
+  <div id="v-container">
+    <div id="w-container">
     <div id="waveform"></div>
-
+  </div>
+  </div>
     <p>
       <label>
         <input type="checkbox" checked="${loop}" />
@@ -124,7 +160,7 @@ ws.once('decode', () => {
         Zoom: <input type="range" min="10" max="1000" value="10" />
       </label>
     </p>
-
+    Changed
     <p>
       📖 <a href="https://wavesurfer.xyz/docs/classes/plugins_regions.default">Regions plugin docs</a>
     </p>
