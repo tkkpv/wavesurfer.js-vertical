@@ -2,6 +2,20 @@
 
 [![npm](https://img.shields.io/npm/v/wavesurfer.js)](https://www.npmjs.com/package/wavesurfer.js) [![sponsor](https://img.shields.io/badge/sponsor_us-🤍-%23B14586)](https://github.com/sponsors/katspaugh)
 
+
+# Update this fork with original version
+```bash
+git remote add upstream https://github.com/katspaugh/wavesurfer.js
+git fetch upstream
+git merge upstream/main
+```
+
+# Changed for now 05.2025
+
+- regions plugins
+
+
+
 **Wavesurfer.js** is an interactive waveform rendering and audio playback library, perfect for web applications. It leverages modern web technologies to provide a robust and visually engaging audio experience.
 
 <img width="626" alt="waveform screenshot" src="https://github.com/katspaugh/wavesurfer.js/assets/381895/05f03bed-800e-4fa1-b09a-82a39a1c62ce">
