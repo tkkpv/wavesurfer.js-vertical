@@ -33,6 +33,10 @@ ws.on('ready', () => {
   var height = v.offsetHeight;
 
   w.style.width = height + 'px';
+  function syncWidth() {
+    w.style.width = v.offsetHeight + 'px';
+  }
+  window.addEventListener('resize', syncWidth);
 });
 
 // Create some regions at specific time ranges
