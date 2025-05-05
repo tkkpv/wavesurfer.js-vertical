@@ -11,11 +11,12 @@
     "audio",
     "player",
     "music",
-    "linguistics"
+    "linguistics",
+    "vertical"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tkkpv/wavesurfer.js-vertical"
+    "url": "git@github.com:tkkpv/wavesurfer.js-vertical"
   },
   "type": "module",
   "files": [
